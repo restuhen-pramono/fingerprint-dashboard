@@ -271,7 +271,7 @@ html, body {
 }
 
 .stat-value {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 800;
   line-height: 1;
   color: var(--text);
@@ -858,7 +858,7 @@ html, body {
     margin-bottom: 14px;
   }
 
-  .stat-value { font-size: 28px; }
+  .stat-value { font-size: 22px; }
 
   /* Two col jadi satu kolom */
   .two-col {
@@ -938,7 +938,7 @@ html, body {
 /* Small mobile (max 400px) */
 @media (max-width: 400px) {
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
-  .stat-value { font-size: 24px; }
+  .stat-value { font-size: 20px; }
   .user-grid { grid-template-columns: 1fr; }
   .nav-item { font-size: 9px; padding: 8px 6px; }
 }
@@ -1071,7 +1071,6 @@ html, body {
 }
 
 /* Progress bar */
-.enroll-progress-wrap { }
 .enroll-progress-track {
   height: 4px;
   background: var(--border);
