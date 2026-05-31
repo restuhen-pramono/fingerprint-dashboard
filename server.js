@@ -13,8 +13,6 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 // ─── Config ────────────────────────────────────────────────
-const PORT = 3000;
-const MQTT_BROKER = 'mqtt://broker.hivemq.com'; // Ganti dengan broker kamu
 const MQTT_TOPICS = {
   STATUS:   'fingerprint/status',
   ACCESS:   'fingerprint/access',
