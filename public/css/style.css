@@ -942,3 +942,194 @@ html, body {
   .user-grid { grid-template-columns: 1fr; }
   .nav-item { font-size: 9px; padding: 8px 6px; }
 }
+
+/* ── Empty Users State ───────────────────────── */
+.empty-users {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 10px;
+  color: var(--text-dim);
+}
+.empty-icon  { font-size: 40px; opacity: 0.3; }
+.empty-title { font-size: 15px; font-weight: 700; color: var(--text-muted); }
+.empty-sub   { font-size: 12px; font-family: 'Space Mono', monospace; text-align: center; max-width: 260px; }
+
+/* ── Enroll Overlay ──────────────────────────── */
+.enroll-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  backdrop-filter: blur(4px);
+  padding: 20px;
+}
+
+.enroll-modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+  animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.94) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.enroll-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.enroll-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.enroll-icon {
+  font-size: 36px;
+  line-height: 1;
+  transition: all 0.3s;
+  display: block;
+}
+
+.enroll-icon.pulse { animation: iconPulse 1s ease-in-out infinite; }
+.enroll-icon.success { animation: none; }
+.enroll-icon.danger  { animation: none; }
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.15); }
+}
+
+.enroll-user {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.enroll-fpid {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+.enroll-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.enroll-main-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.enroll-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Timer */
+.enroll-timer-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+
+.enroll-timer-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.enroll-timer-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Progress bar */
+.enroll-progress-wrap { }
+.enroll-progress-track {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.enroll-progress-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 1s linear;
+}
+
+/* Confidence / Akurasi */
+.enroll-confidence {
+  background: rgba(0,230,118,0.08);
+  border: 1px solid rgba(0,230,118,0.2);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.conf-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--success);
+}
+
+.conf-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--success);
+  font-family: 'Space Mono', monospace;
+}
+
+.conf-track {
+  height: 6px;
+  background: rgba(0,230,118,0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.conf-bar {
+  height: 100%;
+  background: var(--success);
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+
+/* Footer actions */
+.enroll-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}

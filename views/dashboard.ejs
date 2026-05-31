@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FingerprintIoT Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>FingerIoT Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -22,26 +21,16 @@
         </svg>
       </div>
       <div>
-        <div class="brand-name">Fingerpint-IoT</div>
-        <div class="brand-sub">ESP32 Dashboard</div>
+        <div class="brand-name">FingerIoT</div>
+        <div class="brand-sub">ESP32 Absensi</div>
       </div>
     </div>
-
     <nav class="sidebar-nav">
-      <a href="#" class="nav-item active" data-page="overview">
-        <span class="nav-icon">⬡</span> Overview
-      </a>
-      <a href="#" class="nav-item" data-page="logs">
-        <span class="nav-icon">◈</span> Log Akses
-      </a>
-      <a href="#" class="nav-item" data-page="users">
-        <span class="nav-icon">◉</span> Pengguna
-      </a>
-      <a href="#" class="nav-item" data-page="notifications">
-        <span class="nav-icon">◎</span> Notifikasi <span class="notif-badge" id="notifBadge">0</span>
-      </a>
+      <a href="#" class="nav-item active" data-page="overview"><span class="nav-icon">⬡</span> Overview</a>
+      <a href="#" class="nav-item" data-page="logs"><span class="nav-icon">◈</span> Log Absensi</a>
+      <a href="#" class="nav-item" data-page="users"><span class="nav-icon">◉</span> Pengguna</a>
+      <a href="#" class="nav-item" data-page="notifications"><span class="nav-icon">◎</span> Notifikasi <span class="notif-badge" id="notifBadge">0</span></a>
     </nav>
-
     <div class="sidebar-footer">
       <div class="mqtt-indicator">
         <span class="dot" id="mqttDot"></span>
@@ -52,8 +41,6 @@
 
   <!-- Main -->
   <main class="main">
-
-    <!-- Header -->
     <header class="topbar">
       <div class="topbar-left">
         <h1 class="page-title" id="pageTitle">Overview</h1>
@@ -63,11 +50,10 @@
           <span class="device-dot offline" id="deviceDot"></span>
           <span id="deviceLabel">ESP32 Offline</span>
         </div>
-        <button class="btn-ping" id="btnPing">Ping Device</button>
+        <button class="btn-ping" id="btnPing">Ping</button>
       </div>
     </header>
 
-    <!-- Pages -->
     <div class="content">
 
       <!-- PAGE: Overview -->
@@ -84,25 +70,21 @@
             <div class="stat-sub">Terdaftar</div>
           </div>
           <div class="stat-card">
-            <div class="stat-label">Akses Hari Ini</div>
+            <div class="stat-label">Absensi Hari Ini</div>
             <div class="stat-value" id="statToday">0</div>
-            <div class="stat-sub">Log tercatat</div>
+            <div class="stat-sub">Tercatat</div>
           </div>
           <div class="stat-card danger">
-            <div class="stat-label">Akses Ditolak</div>
+            <div class="stat-label">Tidak Dikenal</div>
             <div class="stat-value" id="statDenied">0</div>
             <div class="stat-sub">Hari ini</div>
           </div>
         </div>
 
         <div class="two-col">
-          <!-- Live Status -->
           <div class="card">
-            <div class="card-header">
-              <span>Status Live</span>
-              <span class="pulse-ring"></span>
-            </div>
-            <div class="live-status" id="liveStatus">
+            <div class="card-header"><span>Status Live</span><span class="pulse-ring"></span></div>
+            <div class="live-status">
               <div class="fingerprint-anim" id="fingerprintAnim">
                 <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="60" cy="60" r="55" stroke="var(--border)" stroke-width="1"/>
@@ -122,19 +104,12 @@
             </div>
           </div>
 
-          <!-- Recent Log -->
           <div class="card">
-            <div class="card-header">
-              <span>Log Terbaru</span>
-              <a href="#" class="card-link" data-page="logs">Lihat semua →</a>
-            </div>
-            <div class="mini-log" id="miniLog">
-              <div class="empty-state">Belum ada akses tercatat</div>
-            </div>
+            <div class="card-header"><span>Absensi Terbaru</span><a href="#" class="card-link" data-page="logs">Lihat semua →</a></div>
+            <div class="mini-log" id="miniLog"><div class="empty-state">Belum ada absensi tercatat</div></div>
           </div>
         </div>
 
-        <!-- Device Info -->
         <div class="card mt">
           <div class="card-header"><span>Info Perangkat ESP32</span></div>
           <div class="device-info-grid">
@@ -150,20 +125,20 @@
       <section class="page" id="page-logs">
         <div class="card">
           <div class="card-header">
-            <span>Riwayat Akses</span>
+            <span>Log Absensi</span>
             <div class="filter-group">
               <button class="filter-btn active" data-filter="all">Semua</button>
-              <button class="filter-btn" data-filter="GRANTED">Diterima</button>
+              <button class="filter-btn" data-filter="GRANTED">Dikenal</button>
               <button class="filter-btn" data-filter="DENIED">Ditolak</button>
             </div>
           </div>
           <div class="table-wrap">
             <table class="log-table">
               <thead>
-                <tr><th>#</th><th>Waktu</th><th>Nama</th><th>ID Fingerprint</th><th>Status</th></tr>
+                <tr><th>#</th><th>Waktu</th><th>Nama</th><th>ID Fingerprint</th><th>Akurasi</th><th>Status</th></tr>
               </thead>
               <tbody id="logTableBody">
-                <tr><td colspan="5" class="empty-state">Memuat data...</td></tr>
+                <tr><td colspan="6" class="empty-state">Memuat data...</td></tr>
               </tbody>
             </table>
           </div>
@@ -178,7 +153,7 @@
             <button class="btn-primary" id="btnAddUser">+ Tambah Pengguna</button>
           </div>
 
-          <!-- Add user form (hidden by default) -->
+          <!-- Form tambah user -->
           <div class="add-user-form" id="addUserForm" style="display:none">
             <div class="form-row">
               <div class="form-group">
@@ -199,14 +174,12 @@
               </div>
             </div>
             <div class="form-actions">
-              <button class="btn-primary" id="btnSaveUser">Simpan</button>
-              <button class="btn-ghost" id="btnCancelUser">Batal</button>
+              <button class="btn-primary" id="btnSaveUser">Lanjut & Scan Jari →</button>
+              <button class="btn-ghost"   id="btnCancelUser">Batal</button>
             </div>
           </div>
 
-          <div class="user-grid" id="userGrid">
-            <!-- populated by JS -->
-          </div>
+          <div class="user-grid" id="userGrid"></div>
         </div>
       </section>
 
@@ -217,16 +190,59 @@
             <span>Notifikasi Real-time</span>
             <button class="btn-ghost" id="btnClearNotif">Hapus Semua</button>
           </div>
-          <div class="notif-list" id="notifList">
-            <div class="empty-state">Belum ada notifikasi</div>
-          </div>
+          <div class="notif-list" id="notifList"><div class="empty-state">Belum ada notifikasi</div></div>
         </div>
       </section>
 
     </div>
   </main>
 
-  <!-- Toast -->
+  <!-- ══ ENROLL POPUP ══ -->
+  <div class="enroll-overlay" id="enrollPopup" style="display:none">
+    <div class="enroll-modal">
+      <div class="enroll-header">
+        <div class="enroll-title-row">
+          <span class="enroll-icon pulse" id="enrollIcon">👆</span>
+          <div>
+            <div class="enroll-user" id="enrollName">-</div>
+            <div class="enroll-fpid" id="enrollFpId">ID #-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="enroll-body">
+        <div class="enroll-main-title" id="enrollTitle">Tempelkan Jari</div>
+        <div class="enroll-sub" id="enrollSub">Letakkan jari ke sensor fingerprint</div>
+
+        <!-- Timer -->
+        <div class="enroll-timer-wrap" id="enrollTimerWrap">
+          <div class="enroll-timer-label">Waktu tersisa</div>
+          <div class="enroll-timer-val"><span id="enrollTimer">10</span>s</div>
+        </div>
+
+        <!-- Progress bar timer -->
+        <div class="enroll-progress-wrap" id="enrollProgressWrap">
+          <div class="enroll-progress-track">
+            <div class="enroll-progress-bar" id="enrollProgressBar" style="width:100%"></div>
+          </div>
+        </div>
+
+        <!-- Akurasi (muncul saat sukses) -->
+        <div class="enroll-confidence" id="enrollConfidence" style="display:none">
+          <div class="conf-label">Akurasi Sidik Jari</div>
+          <div class="conf-value" id="enrollConfVal">0%</div>
+          <div class="conf-track">
+            <div class="conf-bar" id="enrollConfBar" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="enroll-footer" id="enrollActions">
+        <button class="btn-ghost" onclick="closeEnrollPopup()">Batalkan</button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast-container" id="toastContainer"></div>
 
   <script src="/socket.io/socket.io.js"></script>
