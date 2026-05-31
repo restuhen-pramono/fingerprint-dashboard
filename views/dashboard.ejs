@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FingerprintIoT Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4C11.163 4 4 11.163 4 20s7.163 16 16 16 16-7.163 16-16S28.837 4 20 4z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M20 10c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10S25.523 10 20 10z" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 2"/>
+          <path d="M20 16a4 4 0 100 8 4 4 0 000-8z" fill="currentColor"/>
+          <path d="M17 20c0-1.657 1.343-3 3-3" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Fingerpint-IoT</div>
+        <div class="brand-sub">ESP32 Dashboard</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="overview">
+        <span class="nav-icon">⬡</span> Overview
+      </a>
+      <a href="#" class="nav-item" data-page="logs">
+        <span class="nav-icon">◈</span> Log Akses
+      </a>
+      <a href="#" class="nav-item" data-page="users">
+        <span class="nav-icon">◉</span> Pengguna
+      </a>
+      <a href="#" class="nav-item" data-page="notifications">
+        <span class="nav-icon">◎</span> Notifikasi <span class="notif-badge" id="notifBadge">0</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="mqtt-indicator">
+        <span class="dot" id="mqttDot"></span>
+        <span id="mqttLabel">Menghubungkan...</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">Overview</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="device-pill" id="devicePill">
+          <span class="device-dot offline" id="deviceDot"></span>
+          <span id="deviceLabel">ESP32 Offline</span>
+        </div>
+        <button class="btn-ping" id="btnPing">Ping Device</button>
+      </div>
+    </header>
+
+    <!-- Pages -->
+    <div class="content">
+
+      <!-- PAGE: Overview -->
+      <section class="page active" id="page-overview">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-label">Status Perangkat</div>
+            <div class="stat-value" id="statDevice">Offline</div>
+            <div class="stat-sub" id="statLastSeen">-</div>
+          </div>
+          <div class="stat-card accent">
+            <div class="stat-label">Total Pengguna</div>
+            <div class="stat-value" id="statUsers">0</div>
+            <div class="stat-sub">Terdaftar</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Akses Hari Ini</div>
+            <div class="stat-value" id="statToday">0</div>
+            <div class="stat-sub">Log tercatat</div>
+          </div>
+          <div class="stat-card danger">
+            <div class="stat-label">Akses Ditolak</div>
+            <div class="stat-value" id="statDenied">0</div>
+            <div class="stat-sub">Hari ini</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <!-- Live Status -->
+          <div class="card">
+            <div class="card-header">
+              <span>Status Live</span>
+              <span class="pulse-ring"></span>
+            </div>
+            <div class="live-status" id="liveStatus">
+              <div class="fingerprint-anim" id="fingerprintAnim">
+                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="60" cy="60" r="55" stroke="var(--border)" stroke-width="1"/>
+                  <path d="M60 20C38.46 20 21 37.46 21 59c0 8.28 2.6 15.97 7.02 22.26" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M60 30c-15.46 0-28 12.54-28 28 0 6.1 1.95 11.75 5.26 16.36" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M60 40c-10.49 0-19 8.51-19 19 0 3.92 1.19 7.56 3.22 10.57" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" class="fp-line"/>
+                  <path d="M60 50c-4.97 0-9 4.03-9 9 0 1.72.48 3.33 1.32 4.69" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" class="fp-line"/>
+                  <circle cx="60" cy="59" r="3" fill="var(--accent)"/>
+                  <path d="M60 20C81.54 20 99 37.46 99 59c0 8.28-2.6 15.97-7.02 22.26" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M60 30c15.46 0 28 12.54 28 28 0 6.1-1.95 11.75-5.26 16.36" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M60 40c10.49 0 19 8.51 19 19 0 3.92-1.19 7.56-3.22 10.57" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" class="fp-line"/>
+                  <path d="M60 50c4.97 0 9 4.03 9 9 0 1.72-.48 3.33-1.32 4.69" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" class="fp-line"/>
+                </svg>
+              </div>
+              <div class="live-label" id="liveLabel">Menunggu input...</div>
+              <div class="live-sub" id="liveSub">Sistem siap</div>
+            </div>
+          </div>
+
+          <!-- Recent Log -->
+          <div class="card">
+            <div class="card-header">
+              <span>Log Terbaru</span>
+              <a href="#" class="card-link" data-page="logs">Lihat semua →</a>
+            </div>
+            <div class="mini-log" id="miniLog">
+              <div class="empty-state">Belum ada akses tercatat</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Device Info -->
+        <div class="card mt">
+          <div class="card-header"><span>Info Perangkat ESP32</span></div>
+          <div class="device-info-grid">
+            <div class="info-item"><div class="info-label">IP Address</div><div class="info-val" id="infoIP">-</div></div>
+            <div class="info-item"><div class="info-label">RSSI (Signal)</div><div class="info-val" id="infoRSSI">-</div></div>
+            <div class="info-item"><div class="info-label">MQTT Broker</div><div class="info-val">broker.hivemq.com</div></div>
+            <div class="info-item"><div class="info-label">Last Seen</div><div class="info-val" id="infoLastSeen">-</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Logs -->
+      <section class="page" id="page-logs">
+        <div class="card">
+          <div class="card-header">
+            <span>Riwayat Akses</span>
+            <div class="filter-group">
+              <button class="filter-btn active" data-filter="all">Semua</button>
+              <button class="filter-btn" data-filter="GRANTED">Diterima</button>
+              <button class="filter-btn" data-filter="DENIED">Ditolak</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="log-table">
+              <thead>
+                <tr><th>#</th><th>Waktu</th><th>Nama</th><th>ID Fingerprint</th><th>Status</th></tr>
+              </thead>
+              <tbody id="logTableBody">
+                <tr><td colspan="5" class="empty-state">Memuat data...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Users -->
+      <section class="page" id="page-users">
+        <div class="card">
+          <div class="card-header">
+            <span>Manajemen Pengguna</span>
+            <button class="btn-primary" id="btnAddUser">+ Tambah Pengguna</button>
+          </div>
+
+          <!-- Add user form (hidden by default) -->
+          <div class="add-user-form" id="addUserForm" style="display:none">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nama Pengguna</label>
+                <input type="text" id="inputName" placeholder="Contoh: Budi Santoso">
+              </div>
+              <div class="form-group">
+                <label>ID Fingerprint</label>
+                <input type="number" id="inputFpId" placeholder="1 - 127" min="1" max="127">
+              </div>
+              <div class="form-group">
+                <label>Role</label>
+                <select id="inputRole">
+                  <option value="Staff">Staff</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Tamu">Tamu</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn-primary" id="btnSaveUser">Simpan</button>
+              <button class="btn-ghost" id="btnCancelUser">Batal</button>
+            </div>
+          </div>
+
+          <div class="user-grid" id="userGrid">
+            <!-- populated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Notifications -->
+      <section class="page" id="page-notifications">
+        <div class="card">
+          <div class="card-header">
+            <span>Notifikasi Real-time</span>
+            <button class="btn-ghost" id="btnClearNotif">Hapus Semua</button>
+          </div>
+          <div class="notif-list" id="notifList">
+            <div class="empty-state">Belum ada notifikasi</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
