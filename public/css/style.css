@@ -354,7 +354,7 @@ html, body {
   stroke-dasharray:60;
   stroke-dashoffset:60;
   opacity:0;
-  animation: fingerprintScan 7s linear infinite;
+  animation: fingerprintScan 6s linear infinite;
   filter: drop-shadow(0 0 4px var(--accent));
 }
 
@@ -365,7 +365,7 @@ html, body {
 
 @keyframes fingerprintScan{
   0%{stroke-dashoffset:60;opacity:0;}
-  20%{opacity:1;}
+  50%{opacity:1;}
   100%{stroke-dashoffset:0;opacity:0;}
 }
 
