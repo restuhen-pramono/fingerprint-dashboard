@@ -35,11 +35,34 @@ socket.on('new_access', (entry) => {
   showToast(entry.status === 'GRANTED' ? `✅ ${entry.name} — Absensi Tercatat` : `🚫 ID #${entry.fingerprintId} — Tidak Dikenal`, entry.status === 'GRANTED' ? 'success' : 'danger');
 });
 
+const dot = document.getElementById('mqttDot');
+const lbl = document.getElementById('mqttLabel');
+
+// Saat halaman pertama kali dibuka
+dot.className = 'dot connecting';
+lbl.textContent = '🟡 Menghubungkan...';
+
+// Socket berhasil connect ke server
+socket.on('connect', () => {
+  dot.className = 'dot online';
+  lbl.textContent = '🟢 Terhubung';
+});
+
+// Socket terputus dari server
+socket.on('disconnect', () => {
+  dot.className = 'dot offline';
+  lbl.textContent = '🔴 Terputus';
+});
+
+// Status MQTT dari backend
 socket.on('mqtt_status', ({ connected }) => {
-  const dot = document.getElementById('mqttDot');
-  const lbl = document.getElementById('mqttLabel');
-  dot.className   = 'dot ' + (connected ? 'online' : 'offline');
-  lbl.textContent = connected ? 'MQTT Terhubung' : 'MQTT Terputus';
+  if (connected) {
+    dot.className = 'dot online';
+    lbl.textContent = '🟢 Terhubung';
+  } else {
+    dot.className = 'dot offline';
+    lbl.textContent = '🔴 Terputus';
+  }
 });
 
 // ─── Enroll Status dari ESP32 ─────────────────────────────

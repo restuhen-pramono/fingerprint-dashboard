@@ -139,17 +139,25 @@ html, body {
   color: var(--text-muted);
 }
 
-.dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--text-dim);
-  flex-shrink: 0;
-  transition: background 0.3s;
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  display:inline-block;
+  margin-right:8px;
 }
 
-.dot.online { background: var(--success); box-shadow: 0 0 6px var(--success); }
-.dot.offline { background: var(--danger); }
-.dot.connecting { background: var(--warn); animation: blink 1s infinite; }
+.dot.connecting{
+  background:#facc15;
+}
+
+.dot.online{
+  background:#22c55e;
+}
+
+.dot.offline{
+  background:#ef4444;
+}
 
 @keyframes blink { 50% { opacity: 0.3; } }
 
