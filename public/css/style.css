@@ -358,10 +358,10 @@ html, body {
   filter: drop-shadow(0 0 4px var(--accent));
 }
 
-.fp-1{ animation-delay:1s; }
-.fp-2{ animation-delay:2s; }
-.fp-3{ animation-delay:3s; }
-.fp-4{ animation-delay:4s; }
+.fp-1{ animation-delay:0s; }
+.fp-2{ animation-delay:1s; }
+.fp-3{ animation-delay:2s; }
+.fp-4{ animation-delay:3s; }
 
 @keyframes fingerprintScan{
   0%{
