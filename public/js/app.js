@@ -40,18 +40,18 @@ const lbl = document.getElementById('mqttLabel');
 
 // Saat halaman pertama kali dibuka
 dot.className = 'dot connecting';
-lbl.textContent = '🟡 Menghubungkan...';
+lbl.textContent = 'Menghubungkan...';
 
 // Socket berhasil connect ke server
 socket.on('connect', () => {
   dot.className = 'dot online';
-  lbl.textContent = '🟢 Terhubung';
+  lbl.textContent = 'Sistem Terhubung';
 });
 
 // Socket terputus dari server
 socket.on('disconnect', () => {
   dot.className = 'dot offline';
-  lbl.textContent = '🔴 Terputus';
+  lbl.textContent = 'Sistem Terputus';
 });
 
 // Status MQTT dari backend
