@@ -350,35 +350,32 @@ html, body {
 
 .fingerprint-anim svg { width: 100%; height: 100%; }
 
-.fp-line {
-  stroke-dasharray: 80;
-  stroke-dashoffset: 80;
-  animation: fpScan 2s linear infinite;
+.fp-line{
+  stroke-dasharray:60;
+  stroke-dashoffset:60;
+  opacity:0;
+  animation: fingerprintScan 1.2s linear infinite;
+  filter: drop-shadow(0 0 4px var(--accent));
 }
 
-.fp-1 { animation-delay: 0s; }
-.fp-2 { animation-delay: 0.5s; }
-.fp-3 { animation-delay: 1s; }
-.fp-4 { animation-delay: 1.5s; }
+.fp-1{ animation-delay:1s; }
+.fp-2{ animation-delay:2s; }
+.fp-3{ animation-delay:3s; }
+.fp-4{ animation-delay:4s; }
 
-@keyframes fpScan {
-  0% {
-    stroke-dashoffset: 80;
-    opacity: 0;
+@keyframes fingerprintScan{
+  0%{
+    stroke-dashoffset:60;
+    opacity:0;
   }
 
-  20% {
-    opacity: 1;
+  20%{
+    opacity:1;
   }
 
-  60% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0;
+  100%{
+    stroke-dashoffset:0;
+    opacity:0;
   }
 }
 
