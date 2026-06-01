@@ -354,7 +354,7 @@ html, body {
   stroke-dasharray:60;
   stroke-dashoffset:60;
   opacity:0;
-  animation: fingerprintScan 1.2s linear infinite;
+  animation: fingerprintScan 7s linear infinite;
   filter: drop-shadow(0 0 4px var(--accent));
 }
 
@@ -364,19 +364,9 @@ html, body {
 .fp-4{ animation-delay:4s; }
 
 @keyframes fingerprintScan{
-  0%{
-    stroke-dashoffset:60;
-    opacity:0;
-  }
-
-  20%{
-    opacity:1;
-  }
-
-  100%{
-    stroke-dashoffset:0;
-    opacity:0;
-  }
+  0%{stroke-dashoffset:60;opacity:0;}
+  20%{opacity:1;}
+  100%{stroke-dashoffset:0;opacity:0;}
 }
 
 .live-label {
