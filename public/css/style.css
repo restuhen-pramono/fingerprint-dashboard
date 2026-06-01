@@ -349,9 +349,13 @@ html, body {
 }
 
 .fp-line:nth-child(1) { animation-delay: 0s; }
-.fp-line:nth-child(2) { animation-delay: 0.3s; }
+.fp-line:nth-child(2) { animation-delay: 0s; }
 .fp-line:nth-child(3) { animation-delay: 0.6s; }
-.fp-line:nth-child(4) { animation-delay: 0.9s; }
+.fp-line:nth-child(4) { animation-delay: 0.6s; }
+.fp-line:nth-child(5) { animation-delay: 1.2s; }
+.fp-line:nth-child(6) { animation-delay: 1.2s; }
+.fp-line:nth-child(7) { animation-delay: 1.8s; }
+.fp-line:nth-child(8) { animation-delay: 1.8s; }
 
 @keyframes draw {
   0%   { stroke-dashoffset: 60; opacity: 0; }
