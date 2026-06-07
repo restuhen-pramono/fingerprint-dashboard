@@ -1,20 +1,20 @@
 const socket = io();
 
-let allLogs   = [];
-let allUsers  = [];
+let allLogs = [];
+let allUsers = [];
 let allNotifs = [];
 let currentFilter = 'all';
-let unreadNotifs  = 0;
+let unreadNotifs = 0;
 
 // Enroll state
-let enrollData    = null;
-let enrollTimer   = null;
+let enrollData = null;
+let enrollTimer = null;
 let enrollSeconds = 0;
 
 // ─── Init ─────────────────────────────────────────────────
 socket.on('init', ({ deviceStatus, accessLog, users, notifications }) => {
-  allLogs   = accessLog    || [];
-  allUsers  = users        || [];
+  allLogs = accessLog || [];
+  allUsers = users || [];
   allNotifs = notifications || [];
   updateDeviceStatus(deviceStatus);
   renderStats();
@@ -25,9 +25,9 @@ socket.on('init', ({ deviceStatus, accessLog, users, notifications }) => {
 });
 
 // ─── Socket Events ────────────────────────────────────────
-socket.on('device_status',   updateDeviceStatus);
-socket.on('users_updated',   (users) => { allUsers = users; renderStats(); renderUsers(); });
-socket.on('new_notification',(notif) => { allNotifs.unshift(notif); unreadNotifs++; updateNotifBadge(); renderNotifications(); });
+socket.on('device_status', updateDeviceStatus);
+socket.on('users_updated', (users) => { allUsers = users; renderStats(); renderUsers(); });
+socket.on('new_notification', (notif) => { allNotifs.unshift(notif); unreadNotifs++; updateNotifBadge(); renderNotifications(); });
 socket.on('new_access', (entry) => {
   allLogs.unshift(entry);
   if (allLogs.length > 500) allLogs.pop();
@@ -151,13 +151,13 @@ function updateTimerDisplay() {
 }
 
 function setEnrollStage(stage, confidence = 0, reason = '') {
-  const icon    = document.getElementById('enrollIcon');
-  const title   = document.getElementById('enrollTitle');
-  const sub     = document.getElementById('enrollSub');
-  const conf    = document.getElementById('enrollConfidence');
+  const icon = document.getElementById('enrollIcon');
+  const title = document.getElementById('enrollTitle');
+  const sub = document.getElementById('enrollSub');
+  const conf = document.getElementById('enrollConfidence');
   const actions = document.getElementById('enrollActions');
   const timerEl = document.getElementById('enrollTimerWrap');
-  const progress= document.getElementById('enrollProgressWrap');
+  const progress = document.getElementById('enrollProgressWrap');
 
   // Reset
   actions.innerHTML = '';
@@ -165,53 +165,53 @@ function setEnrollStage(stage, confidence = 0, reason = '') {
 
   switch (stage) {
     case 'waiting':
-      icon.textContent  = '👆';
-      icon.className    = 'enroll-icon pulse';
+      icon.textContent = '👆';
+      icon.className = 'enroll-icon pulse';
       title.textContent = 'Tempelkan Jari';
-      sub.textContent   = 'Letakkan jari ke sensor fingerprint';
-      timerEl.style.display  = 'flex';
+      sub.textContent = 'Letakkan jari ke sensor fingerprint';
+      timerEl.style.display = 'flex';
       progress.style.display = 'block';
       actions.innerHTML = `<button class="btn-ghost" onclick="closeEnrollPopup()">Batalkan</button>`;
       break;
 
     case 'first_ok':
-      icon.textContent  = '✋';
-      icon.className    = 'enroll-icon';
+      icon.textContent = '✋';
+      icon.className = 'enroll-icon';
       title.textContent = 'Berhasil! Angkat Jari';
-      sub.textContent   = 'Lalu tempelkan jari yang sama sekali lagi';
-      timerEl.style.display  = 'flex';
+      sub.textContent = 'Lalu tempelkan jari yang sama sekali lagi';
+      timerEl.style.display = 'flex';
       progress.style.display = 'block';
       actions.innerHTML = `<button class="btn-ghost" onclick="closeEnrollPopup()">Batalkan</button>`;
       break;
 
     case 'second':
-      icon.textContent  = '👆';
-      icon.className    = 'enroll-icon pulse';
+      icon.textContent = '👆';
+      icon.className = 'enroll-icon pulse';
       title.textContent = 'Tempelkan Lagi';
-      sub.textContent   = 'Tempelkan jari yang sama untuk konfirmasi';
-      timerEl.style.display  = 'flex';
+      sub.textContent = 'Tempelkan jari yang sama untuk konfirmasi';
+      timerEl.style.display = 'flex';
       progress.style.display = 'block';
       actions.innerHTML = `<button class="btn-ghost" onclick="closeEnrollPopup()">Batalkan</button>`;
       break;
 
     case 'success':
-      icon.textContent  = '✅';
-      icon.className    = 'enroll-icon success';
+      icon.textContent = '✅';
+      icon.className = 'enroll-icon success';
       title.textContent = 'Pendaftaran Berhasil!';
-      sub.textContent   = `${enrollData?.name || 'Pengguna'} berhasil didaftarkan`;
-      timerEl.style.display  = 'none';
+      sub.textContent = `${enrollData?.name || 'Pengguna'} berhasil didaftarkan`;
+      timerEl.style.display = 'none';
       progress.style.display = 'none';
-      conf.style.display     = 'flex';
+      conf.style.display = 'flex';
       document.getElementById('enrollConfVal').textContent = confidence + '%';
       document.getElementById('enrollConfBar').style.width = confidence + '%';
       break;
 
     case 'failed':
-      icon.textContent  = '❌';
-      icon.className    = 'enroll-icon danger';
+      icon.textContent = '❌';
+      icon.className = 'enroll-icon danger';
       title.textContent = reason === 'timeout' ? 'Waktu Habis' : 'Pendaftaran Gagal';
-      sub.textContent   = reason === 'timeout' ? 'Tidak ada jari terdeteksi dalam 10 detik' : 'Sidik jari tidak cocok, coba lagi';
-      timerEl.style.display  = 'none';
+      sub.textContent = reason === 'timeout' ? 'Tidak ada jari terdeteksi dalam 10 detik' : 'Sidik jari tidak cocok, coba lagi';
+      timerEl.style.display = 'none';
       progress.style.display = 'none';
       actions.innerHTML = `
         <button class="btn-primary" onclick="retryEnroll()">🔄 Scan Ulang</button>
@@ -223,23 +223,23 @@ function setEnrollStage(stage, confidence = 0, reason = '') {
 
 // ─── Device Status ────────────────────────────────────────
 function updateDeviceStatus(status) {
-  const dot   = document.getElementById('deviceDot');
+  const dot = document.getElementById('deviceDot');
   const label = document.getElementById('deviceLabel');
-  dot.className     = 'device-dot ' + (status?.online ? 'online' : 'offline');
+  dot.className = 'device-dot ' + (status?.online ? 'online' : 'offline');
   label.textContent = status?.online ? 'ESP32 Online' : 'ESP32 Offline';
-  document.getElementById('statDevice').textContent   = status?.online ? 'Online' : 'Offline';
-  document.getElementById('statLastSeen').textContent = status?.lastSeen ? 'Terakhir: ' + formatTime(status.lastSeen) : '-';
-  document.getElementById('infoIP').textContent       = status?.ip   || '-';
-  document.getElementById('infoRSSI').textContent     = status?.rssi ? status.rssi + ' dBm' : '-';
+  document.getElementById('statDevice').textContent = status?.online ? 'Online' : 'Offline';
+  document.getElementById('statLastSeen').textContent = status?.lastSeen ? 'Terakhir dilihat: ' + formatTime(status.lastSeen) : '-';
+  document.getElementById('infoIP').textContent = status?.ip || '-';
+  document.getElementById('infoRSSI').textContent = status?.rssi ? status.rssi + ' dBm' : '-';
   document.getElementById('infoLastSeen').textContent = status?.lastSeen ? formatTime(status.lastSeen) : '-';
 }
 
 // ─── Stats ────────────────────────────────────────────────
 function renderStats() {
   document.getElementById('statUsers').textContent = allUsers.length;
-  const today     = new Date().toDateString();
+  const today = new Date().toDateString();
   const todayLogs = allLogs.filter(l => new Date(l.timestamp).toDateString() === today);
-  document.getElementById('statToday').textContent  = todayLogs.length;
+  document.getElementById('statToday').textContent = todayLogs.length;
   document.getElementById('statDenied').textContent = todayLogs.filter(l => l.status === 'DENIED').length;
 }
 
@@ -257,8 +257,8 @@ function renderMiniLog() {
 
 // ─── Log Table ────────────────────────────────────────────
 function renderLogTable() {
-  const tbody    = document.getElementById('logTableBody');
-  let filtered   = currentFilter === 'all' ? allLogs : allLogs.filter(l => l.status === currentFilter);
+  const tbody = document.getElementById('logTableBody');
+  let filtered = currentFilter === 'all' ? allLogs : allLogs.filter(l => l.status === currentFilter);
   if (!filtered.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Belum ada data log</td></tr>'; return; }
   tbody.innerHTML = filtered.slice(0, 100).map((l, i) => `
     <tr>
@@ -312,17 +312,17 @@ function renderNotifications() {
 // ─── Live Animation ───────────────────────────────────────
 let liveTimer;
 function animateLiveStatus(entry) {
-  const anim  = document.getElementById('fingerprintAnim');
+  const anim = document.getElementById('fingerprintAnim');
   const label = document.getElementById('liveLabel');
-  const sub   = document.getElementById('liveSub');
+  const sub = document.getElementById('liveSub');
   clearTimeout(liveTimer);
-  anim.className    = 'fingerprint-anim ' + (entry.status === 'GRANTED' ? 'granted' : 'denied');
+  anim.className = 'fingerprint-anim ' + (entry.status === 'GRANTED' ? 'granted' : 'denied');
   label.textContent = entry.status === 'GRANTED' ? `Absensi: ${entry.name}` : 'Tidak Dikenal';
-  sub.textContent   = `ID #${entry.fingerprintId} — Akurasi: ${entry.confidence || '-'}%`;
+  sub.textContent = `ID #${entry.fingerprintId} — Akurasi: ${entry.confidence || '-'}%`;
   liveTimer = setTimeout(() => {
-    anim.className    = 'fingerprint-anim';
+    anim.className = 'fingerprint-anim';
     label.textContent = 'Menunggu input...';
-    sub.textContent   = 'Sistem siap';
+    sub.textContent = 'Sistem siap';
   }, 4000);
 }
 
@@ -367,8 +367,8 @@ document.getElementById('btnSaveUser').addEventListener('click', async () => {
   const fpId = document.getElementById('inputFpId').value.trim();
   const role = document.getElementById('inputRole').value;
 
-  if (!name)  { showToast('Nama wajib diisi', 'danger'); return; }
-  if (!fpId)  { showToast('ID Fingerprint wajib diisi', 'danger'); return; }
+  if (!name) { showToast('Nama wajib diisi', 'danger'); return; }
+  if (!fpId) { showToast('ID Fingerprint wajib diisi', 'danger'); return; }
   if (allUsers.find(u => u.fingerprintId === parseInt(fpId))) {
     showToast('ID Fingerprint sudah digunakan', 'danger'); return;
   }
@@ -420,7 +420,7 @@ document.getElementById('btnPing').addEventListener('click', () => {
 // ─── Notif Badge ──────────────────────────────────────────
 function updateNotifBadge() {
   const badge = document.getElementById('notifBadge');
-  badge.textContent  = unreadNotifs;
+  badge.textContent = unreadNotifs;
   badge.style.display = unreadNotifs > 0 ? 'inline-block' : 'none';
 }
 
@@ -428,7 +428,7 @@ function updateNotifBadge() {
 function showToast(msg, type = 'info') {
   const container = document.getElementById('toastContainer');
   const toast = document.createElement('div');
-  toast.className   = `toast ${type}`;
+  toast.className = `toast ${type}`;
   toast.textContent = msg;
   container.appendChild(toast);
   setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.4s'; setTimeout(() => toast.remove(), 400); }, 3000);

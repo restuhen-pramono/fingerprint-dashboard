@@ -80,7 +80,7 @@ mqttClient.on('message', (topic, message) => {
 
   switch (topic) {
     case MQTT_TOPICS.STATUS:
-      deviceStatus = { online: payload.online ?? true, lastSeen: now, ip: payload.ip || '-', rssi: payload.rssi || '-' };
+      deviceStatus = { online: payload.online === true, lastSeen: now, ip: payload.ip || '-', rssi: payload.rssi || '-' };
       io.emit('device_status', deviceStatus);
       break;
 
